@@ -11,6 +11,31 @@ alpha = [a-zA-Z]
 bool_literal = "true" | "false"
 literal = {int_literal} | {float_literal} | {bool_literal} 
 
+
+cond_op = "&&" | "||"
+eq_op = "==" | "!="
+rel_op = "<" | ">" | ">=" | "<="
+arith_op = "+" | "-" | "*" | "/" | "%"
+bin_op = {arith_op} | {rel_op} | {eq_op} | {cond_op}	
+assign_op = "=" | "+=" | "-="
+type = "integer" | "float" | "bool" | {id} | "void"
+
+
+/*
+location = {id} (.{id})* | {id} (.{id})* "[" {expr} "]"
+method_call = {id} (.{id})* ( ({expr}+ ,)*)
+*/
+
+auxExpr = {literal} // | {location} | {method_call}
+expr = {auxExpr} | {auxExpr} {bin_op} {auxExpr} | "-" {auxExpr} | "!" {auxExpr} | "("{auxExpr}")" 
+
+
 %%
 
-{literal} { System.out.println("literal"); }
+{expr} { System.out.println("expr"); }
+
+/* 
+{location} { System.out.println("location "); }
+{method_call} { System.out.println("method_call "); }
+{expr} { System.out.println("expr "); }
+ */
