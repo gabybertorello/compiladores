@@ -21,14 +21,15 @@ assign_op = "=" | "+=" | "-="
 type = "integer" | "float" | "bool" | {id} | "void"
 
 
-/*
-location = {id} (.{id})* | {id} (.{id})* "[" {expr} "]"
-method_call = {id} (.{id})* ( ({expr}+ ,)*)
-*/
+
+location = {id} (.{id})* | {id} (.{id})* "[" {auxExpr} "]"
+method_call = {id} (.{id})* ( ({auxExpr}+ ,)*)
+
 
 auxExpr = {literal} // | {location} | {method_call}
-expr = {auxExpr} | {auxExpr} {bin_op} {auxExpr} | "-" {auxExpr} | "!" {auxExpr} | "("{auxExpr}")" 
+//expr = {auxExpr} | {auxExpr} {bin_op} {auxExpr} | "-" {auxExpr} | "!" {auxExpr} | "("{auxExpr}")" 
 
+expr = {auxExpr} | {auxExpr} {bin_op} {auxExpr} | "-" {auxExpr} | "!" {auxExpr} | "(" {auxExpr} ")"  
 
 %%
 
