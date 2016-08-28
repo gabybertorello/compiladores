@@ -42,7 +42,7 @@ expr =  {literal} | {location} | {method_call} | {expr} | {expr} {bin_op} {expr}
 <YYINITIAL>
 {
 {oneLineComment} { System.out.println("one line comment "); }
-"bool" { System.out.println("bool "); }
+"bool" { return symbol(bool, yytext()); }
 "break" { System.out.println("break "); }
 "class" { System.out.println("class "); }
 "continue" { System.out.println("continue "); }

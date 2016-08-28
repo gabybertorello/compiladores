@@ -706,7 +706,7 @@ class Lexer {
             }
           case 33: break;
           case 7: 
-            { System.out.println("whiteSpace ");
+            { 
             }
           case 34: break;
           case 8: 
@@ -746,7 +746,7 @@ class Lexer {
             }
           case 43: break;
           case 17: 
-            { System.out.println("bool ");
+            { return symbol(bool, yytext());
             }
           case 44: break;
           case 18: 
