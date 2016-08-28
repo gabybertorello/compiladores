@@ -1,6 +1,16 @@
+
+
 %%
 %class Lexer
 %standalone
+/* 
+The current line number can be accessed with the variable yyline 
+and the current column number with the variable yycolumn. 
+*/ 
+%line 
+%column 
+ 
+
 
 digit = [0-9]
 int_literal = {digit}+ 
@@ -21,22 +31,33 @@ assign_op = "=" | "+=" | "-="
 type = "integer" | "float" | "bool" | {id} | "void"
 
 
-
-location = {id} (.{id})* | {id} (.{id})* "[" {auxExpr} "]"
-method_call = {id} (.{id})* ( ({auxExpr}+ ,)*)
-
-
-auxExpr = {literal} // | {location} | {method_call}
-//expr = {auxExpr} | {auxExpr} {bin_op} {auxExpr} | "-" {auxExpr} | "!" {auxExpr} | "("{auxExpr}")" 
-
-expr = {auxExpr} | {auxExpr} {bin_op} {auxExpr} | "-" {auxExpr} | "!" {auxExpr} | "(" {auxExpr} ")"  
+/*
+location = {id} (.{id})* | {id} (.{id})* "[" {expr} "]"
+method_call = {id} (.{id})* ( ({expr}+ ,)*)
+expr =  {literal} | {location} | {method_call} | {expr} | {expr} {bin_op} {expr} | "-" {expr} | "!" {expr} | "("{expr}")" 
+*/
 
 %%
 
-{expr} { System.out.println("expr"); }
+<YYINITIAL>
+{
 
-/* 
-{location} { System.out.println("location "); }
-{method_call} { System.out.println("method_call "); }
-{expr} { System.out.println("expr "); }
- */
+{digit} { System.out.println("digit "); }
+{int_literal} { System.out.println("int_literal "); }
+{float_literal} { System.out.println("float_literal "); }
+{alpha_num} { System.out.println("alpha_num "); }
+{id} { System.out.println("id "); }
+{bool_literal} { System.out.println("bool_literal "); }
+{literal} { System.out.println("literal "); }
+{cond_op} { System.out.println("cond_op "); }
+{eq_op} { System.out.println("eq_op "); }
+{rel_op} { System.out.println("rel_op "); }
+{arith_op} { System.out.println("arith_op "); }
+{assign_op} { System.out.println("assign_op "); }
+{type} { System.out.println("location "); }
+}   
+
+[^] {System.err.println("Illegal character: "+ yytext() +" at line "+ yyline+ ", column "+ yycolumn); }
+
+
+<<EOF>> {System.out.println("EOF"); }
