@@ -1,5 +1,6 @@
-import java_cup.runtime.*; 
-//import sym; 
+import java_cup.runtime.*;
+import java_cup.runtime.ComplexSymbolFactory.Location;
+//  import sym; 
 %%
 %class Lexer
 %standalone
@@ -14,12 +15,13 @@ and the current column number with the variable yycolumn.
     /* To create a new java_cup.runtime.Symbol with information about
        the current token, the token will have no value in this
        case. */
-    private Symbol symbol(int type) {
+    private Symbol symbol(int type) {	
         return new Symbol(type, yyline, yycolumn);
     }
     
     /* Also creates a new java_cup.runtime.Symbol with information
-       about the current token, but this object has a value. */
+       about the current token, but this object has a value
+. */
     private Symbol symbol(int type, Object value) {
         return new Symbol(type, yyline, yycolumn, value);
     }
@@ -28,32 +30,18 @@ and the current column number with the variable yycolumn.
 digit = [0-9]
 int_literal = {digit}+ 
 float_literal = {int_literal} "." {int_literal}
-alpha_num = {alpha} | {digit} | "_"
+alpha_num = {alpha}| {digit} | "_"
 id = {alpha} {alpha_num}*
 alpha = [a-zA-Z]
-bool_literal = "true" | "false"
-literal = {int_literal} | {float_literal} | {bool_literal} 
 
-
-cond_op = "&&" | "||"
-eq_op = "==" | "!="
-rel_op = "<" | ">" | ">=" | "<="
-arith_op = "+" | "-" | "*" | "/" | "%"
-bin_op = {arith_op} | {rel_op} | {eq_op} | {cond_op}	
-assign_op = "=" | "+=" | "-="
-type = "integer" | "float" | "bool" | {id} | "void"
 lineOfCharacters = [^\r\n]
 oneLineComment = "//" {lineOfCharacters}
 severalLinesComments = "/*" [ˆ*] {CommentContent} "*"+ "/" 
 CommentContent = = ( [ˆ*] | \*+ [ˆ/*] )*
-// VER!! comments = {oneLineComments} | {severalLinesComments}
-whiteSpace = [\t\r \n\f]
+/* VER!! comments = {oneLineComments} | {severalLinesComments}
 // VER!! spaces = {whiteSpaces} | {comments}
-/*
-location = {id} (.{id})* | {id} (.{id})* "[" {expr} "]"
-method_call = {id} (.{id})* ( ({expr}+ ,)*)
-expr =  {literal} | {location} | {method_call} | {expr} | {expr} {bin_op} {expr} | "-" {expr} | "!" {expr} | "("{expr}")" 
 */
+whiteSpace = [\t\r \n\f]
 
 %%
 
@@ -61,35 +49,43 @@ expr =  {literal} | {location} | {method_call} | {expr} | {expr} {bin_op} {expr}
 <YYINITIAL>
 {
 {oneLineComment} { System.out.println("one line comment "); }
-"bool" { return symbol(bool, yytext()); }
+
+"bool" { return symbol(sym.PLUS , yytext()); }
 "break" { System.out.println("break "); }
 "class" { System.out.println("class "); }
 "continue" { System.out.println("continue "); }
 "else" { System.out.println("else "); }
 "extern" { System.out.println("extern "); }
-"false" { System.out.println("false "); }
 "float" { System.out.println("float "); }
 "for" { System.out.println("for "); }
 "if" { System.out.println("digit "); }
 "integer" { System.out.println("integer "); }
 "return" { System.out.println("return "); }
-"true" { System.out.println("true "); }
 "void" { System.out.println("void "); }
 "while" { System.out.println("while "); }
+"&&" 
+"||"
+"=="
+"!="
+"<" 
+">"
+">="
+"<="
+"+" 
+"-"
+"*" 
+"/" 
+"%"
+"=" 
+"+="
+"-="
 
 {digit} { System.out.println("digit "); }
 {int_literal} { System.out.println("int_literal "); }
 {float_literal} { System.out.println("float_literal "); }
 {alpha_num} { System.out.println("alpha_num "); }
 {id} { System.out.println("id "); }
-{bool_literal} { System.out.println("bool_literal "); }
-{literal} { System.out.println("literal "); }
-{cond_op} { System.out.println("cond_op "); }
-{eq_op} { System.out.println("eq_op "); }
-{rel_op} { System.out.println("rel_op "); }
-{arith_op} { System.out.println("arith_op "); }
-{assign_op} { System.out.println("assign_op "); }
-{type} { System.out.println("location "); }
+
 {whiteSpace} {}
 }   
 
