@@ -1,3 +1,5 @@
+import java_cup.runtime.*; 
+//import sym; 
 %%
 %class Lexer
 %standalone
@@ -7,8 +9,21 @@ and the current column number with the variable yycolumn.
 */ 
 %line 
 %column 
- 
 
+%{   
+    /* To create a new java_cup.runtime.Symbol with information about
+       the current token, the token will have no value in this
+       case. */
+    private Symbol symbol(int type) {
+        return new Symbol(type, yyline, yycolumn);
+    }
+    
+    /* Also creates a new java_cup.runtime.Symbol with information
+       about the current token, but this object has a value. */
+    private Symbol symbol(int type, Object value) {
+        return new Symbol(type, yyline, yycolumn, value);
+    }
+%}
 
 digit = [0-9]
 int_literal = {digit}+ 
@@ -29,7 +44,11 @@ assign_op = "=" | "+=" | "-="
 type = "integer" | "float" | "bool" | {id} | "void"
 lineOfCharacters = [^\r\n]
 oneLineComment = "//" {lineOfCharacters}
+severalLinesComments = "/*" [ˆ*] {CommentContent} "*"+ "/" 
+CommentContent = = ( [ˆ*] | \*+ [ˆ/*] )*
+// VER!! comments = {oneLineComments} | {severalLinesComments}
 whiteSpace = [\t\r \n\f]
+// VER!! spaces = {whiteSpaces} | {comments}
 /*
 location = {id} (.{id})* | {id} (.{id})* "[" {expr} "]"
 method_call = {id} (.{id})* ( ({expr}+ ,)*)
@@ -74,7 +93,7 @@ expr =  {literal} | {location} | {method_call} | {expr} | {expr} {bin_op} {expr}
 {whiteSpace} {}
 }   
 
-[^] {System.err.println("Illegal character: "+ yytext() +" at line "+ yyline+ ", column "+ yycolumn); }
+[^] {System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", column "+ yycolumn +")"); }
 
 
-// <<EOF>> {System.out.println("EOF"); }
+//<<EOF>> {System.out.println("EOF"); }
