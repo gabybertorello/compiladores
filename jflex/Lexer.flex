@@ -80,7 +80,7 @@ whiteSpace = [\t\r \n\f]
 "+="
 "-="
 
-{digit} { System.out.println("digit "); }
+{digit} { return symbol(sym.NUMBER , "Number"); }
 {int_literal} { System.out.println("int_literal "); }
 {float_literal} { System.out.println("float_literal "); }
 {alpha_num} { System.out.println("alpha_num "); }
