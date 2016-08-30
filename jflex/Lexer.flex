@@ -8,7 +8,7 @@ import java_cup.runtime.*;
 %standalone
 %line	// se puede acceder a la linea corriente a traves de la variable yyline 
 %column // se puede acceder a la columna corriente a traves de la variable yycolumn
-%cup
+
 
 %{   
     /* To create a new java_cup.runtime.Symbol with information about
