@@ -96,11 +96,11 @@ whiteSpace = [\t\r \n\f]
 "&&" 	{/* return Symbol(sym.AND);*/}
 "||"	{/* return Symbol(sym.OR);*/}
 
-//{digit} { return symbol(sym.NUMBER , "Number"); }
-{int_literal} { System.out.println("int_literal "); }
-{float_literal} { System.out.println("float_literal "); }
-{alpha_num} { System.out.println("alpha_num "); }
-{id} { System.out.println("id "); }
+{digit} { /*return symbol(sym.DIGIT,new String(yytext()));*/}
+{int_literal} { /*return symbol(sym.int,new String(yytext()));*/ }
+{float_literal} { /*return symbol(sym.FLOAT,new String(yytext()));*/}
+{alpha_num} { /*return symbol(sym.ALPHANUM,new String(yytext()));*/}
+{id} { /*return symbol(sym.ID,new String(yytext()));*/ }
 
 {whiteSpace} {System.out.println("espacio blanco");}
 }   
