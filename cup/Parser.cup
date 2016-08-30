@@ -1,30 +1,19 @@
-/* Simple +/-/* expression language; parser evaluates constant expressions on the fly*/
 import java_cup.runtime.*;
+import java.io.FileReader;
 
-parser code {:
-    // Connect this parser to a scanner!
-    scanner s;
-    Parser(scanner s){ this.s=s; }
-:}
+parser code (:
+    
+:);
 
-/* define how to connect to the scanner! */
-init with {: s.init(); :};
-scan with {: return s.next_token(); :};
+//declaracion de terminales
+terminal SUM;
+terminal String DIGIT;
 
-/* Terminals (tokens returned by the scanner). */
-terminal            PLUS;
-terminal Integer    NUMBER;        // our scanner provides numbers as integers
+//declaracion de no terminales
 
-/* Non terminals */
-non terminal            expr_list;
-non terminal Integer    expr;      // used to store evaluated subexpressions
+non terminal String expr;
 
-/* Precedences */
-precedence left PLUS;
+//grammar section
 
-/* The grammar rules */
-
+expr ::=  DIGIT SUM DIGIT
 ;
-expr      ::= expr:e1 PLUS  expr:e2         {: RESULT = e1+e2;       :}
-       		| NUMBER:n	                     {: RESULT = n;           :}
-             ;

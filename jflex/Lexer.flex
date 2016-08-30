@@ -1,5 +1,3 @@
-package ctdsCompiler;
-
 import java_cup.runtime.*;
 
 /* CODIGO DE USUARIO */
@@ -73,30 +71,30 @@ whiteSpace = [\t\r \n\f]
 "while" { System.out.println("while "); }
 
 // assign_op
-"="		{} 
-"+="	{}
-"-="	{}
+"="	{/* return Symbol(sym.EQUAL);*/} 
+"+="	{/* return Symbol(sym.PLUSASSING);*/}
+"-="	{/* return Symbol(sym.SUPASSING);*/}
 
 // arith_op
-"+" 	{}
-"-"		{}
-"*" 	{}
-"/" 	{}
-"%"		{}
+"+" 	{/* return Symbol(sym.PLUS);*/}
+"-"	{/* return Symbol(sym.SUP);*/}
+"*" 	{/* return Symbol(sym.MULT);*/}
+"/" 	{/* return Symbol(sym.DIV);*/}
+"%"	{/* return Symbol(sym.MOD);*/}
 
 // rel_op
-"<" 	{}
-">"		{}
-"<="	{}
-">="	{}
+"<" 	{/* return Symbol(sym.LESS);*/}
+">"	{/* return Symbol(sym.GREATER);*/}
+"<="	{/* return Symbol(sym.LESSEQUAL);*/}
+">="	{/* return Symbol(sym.GREATEREQUAL);*/}
 
 // eq_op
-"=="	{}
-"!="	{}
+"=="	{/* return Symbol(sym.LOGEQUAL);*/}
+"!="	{/* return Symbol(sym.UNEQUAL);*/}
 
 // cond_op
-"&&" 	{}
-"||"	{}
+"&&" 	{/* return Symbol(sym.AND);*/}
+"||"	{/* return Symbol(sym.OR);*/}
 
 //{digit} { return symbol(sym.NUMBER , "Number"); }
 {int_literal} { System.out.println("int_literal "); }
