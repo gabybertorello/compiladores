@@ -1,15 +1,16 @@
+package ctdsCompiler;
+
 import java_cup.runtime.*;
-import java_cup.runtime.ComplexSymbolFactory.Location;
-//  import sym; 
+
+/* CODIGO DE USUARIO */
 %%
+
 %class Lexer
+
 %standalone
-/* 
-The current line number can be accessed with the variable yyline 
-and the current column number with the variable yycolumn. 
-*/ 
-%line 
-%column 
+%line	// se puede acceder a la linea corriente a traves de la variable yyline 
+%column // se puede acceder a la columna corriente a traves de la variable yycolumn
+%cup
 
 %{   
     /* To create a new java_cup.runtime.Symbol with information about
@@ -27,15 +28,20 @@ and the current column number with the variable yycolumn.
     }
 %}
 
-digit = [0-9]
-int_literal = {digit}+ 
-float_literal = {int_literal} "." {int_literal}
-alpha_num = {alpha}| {digit} | "_"
-id = {alpha} {alpha_num}*
-alpha = [a-zA-Z]
 
+/* OPCIONES Y DECLARACIONES */
+
+// Macros
+digit = [0-9]
+int_literal = {digit}+
+float_literal = {int_literal} "." {int_literal}
+alpha = [a-zA-Z]
+alpha_num = {alpha} | {digit} | "_"
+id = {alpha} {alpha_num}*
+
+lineTerminator = \r|\n|\r\n
 lineOfCharacters = [^\r\n]
-oneLineComment = "//" {lineOfCharacters}
+oneLineComment = "//" {lineOfCharacters}*
 severalLinesComments = "/*" [ˆ*] {CommentContent} "*"+ "/" 
 CommentContent = = ( [ˆ*] | \*+ [ˆ/*] )*
 /* VER!! comments = {oneLineComments} | {severalLinesComments}
@@ -43,14 +49,16 @@ CommentContent = = ( [ˆ*] | \*+ [ˆ/*] )*
 */
 whiteSpace = [\t\r \n\f]
 
-%%
 
+
+/* REGLAS LEXICAS */
+%%
 
 <YYINITIAL>
 {
 {oneLineComment} { System.out.println("one line comment "); }
 
-"bool" { return symbol(sym.PLUS , yytext()); }
+//"bool" { return symbol(sym.PLUS , yytext()); }
 "break" { System.out.println("break "); }
 "class" { System.out.println("class "); }
 "continue" { System.out.println("continue "); }
@@ -63,33 +71,43 @@ whiteSpace = [\t\r \n\f]
 "return" { System.out.println("return "); }
 "void" { System.out.println("void "); }
 "while" { System.out.println("while "); }
-"&&" 
-"||"
-"=="
-"!="
-"<" 
-">"
-">="
-"<="
-"+" 
-"-"
-"*" 
-"/" 
-"%"
-"=" 
-"+="
-"-="
 
-{digit} { return symbol(sym.NUMBER , "Number"); }
+// assign_op
+"="		{} 
+"+="	{}
+"-="	{}
+
+// arith_op
+"+" 	{}
+"-"		{}
+"*" 	{}
+"/" 	{}
+"%"		{}
+
+// rel_op
+"<" 	{}
+">"		{}
+"<="	{}
+">="	{}
+
+// eq_op
+"=="	{}
+"!="	{}
+
+// cond_op
+"&&" 	{}
+"||"	{}
+
+//{digit} { return symbol(sym.NUMBER , "Number"); }
 {int_literal} { System.out.println("int_literal "); }
 {float_literal} { System.out.println("float_literal "); }
 {alpha_num} { System.out.println("alpha_num "); }
 {id} { System.out.println("id "); }
 
-{whiteSpace} {}
+{whiteSpace} {System.out.println("espacio blanco");}
 }   
 
-[^] {System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", column "+ yycolumn +")"); }
+[^] {System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", columna "+ yycolumn +")"); }
 
 
 //<<EOF>> {System.out.println("EOF"); }

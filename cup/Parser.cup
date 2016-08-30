@@ -23,10 +23,8 @@ non terminal Integer    expr;      // used to store evaluated subexpressions
 precedence left PLUS;
 
 /* The grammar rules */
-expr_list ::= expr_list expr:e SEMI         {: System.out.println(e);:}
-            | expr:e SEMI                   {: System.out.println(e);:}
+
 ;
 expr      ::= expr:e1 PLUS  expr:e2         {: RESULT = e1+e2;       :}
-  	     %prec UMINUS
        		| NUMBER:n	                     {: RESULT = n;           :}
              ;
