@@ -14,10 +14,10 @@ java -jar ../lib/cup/java-cup-11b.jar ctdsCompiler/Parser.cup
 javac -cp ../lib/cup/java-cup-11b.jar ctdsCompiler/sym.java
 
 //parser.class
-javac -cp ../lib/cup/java-cup-11b.jar ctdsCompiler/parser.java
+javac -cp .:../lib/java-cup-11b-runtime.jar ./ctdsCompiler/parser.java
 
 //generar Lexer.class
-java -jar ../lib/JFlex.jar ctdsCompiler/Lexer.flex 
+javac -cp .:../lib/java-cup-11b-runtime.jar ./ctdsCompiler/Lexer.java
 
 
 
