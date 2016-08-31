@@ -1,0 +1,27 @@
+Desde compiladores:
+$ javac -cp lib/cup/java-cup-11b-runtime.jar src/ctdsCompiler/Lexer.java 
+src]$ java ctdsCompiler.Lexer ../input.test 
+
+$ cd jflex
+% java Lexer input.text
+
+java -jar ../lib/cup/java-cup-11b.jar ctdsCompiler/Parser.cup
+
+ javac -classpath lib/cup/java-cup-11b-runtime.jar src/sym.java src/parser.java 
+
+java -jar ../lib/JFlex.jar ctdsCompiler/Lexer.flex 
+ 
+ 
+
+//compilar:
+
+cd compiladores/src
+
+//generar flex
+jflex ctdsCompiler/Lexer.flex 
+
+//cup.class
+java -jar ../lib/cup/java-cup-11b.jar ctdsCompiler/Parser.cup
+
+//generar Lexer.class (no anda aun)
+java -jar ../lib/JFlex.jar ctdsCompiler/Lexer.flex 

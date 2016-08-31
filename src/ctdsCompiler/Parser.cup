@@ -1,12 +1,14 @@
+package ctdsCompiler;
+
 import java_cup.runtime.*;
 import java.io.FileReader;
 
-parser code (:
+parser code {:
     
-:);
+:};
 
 //declaracion de terminales
-terminal SUM;
+terminal PLUS;
 terminal String DIGIT;
 
 //declaracion de no terminales
@@ -15,5 +17,7 @@ non terminal String expr;
 
 //grammar section
 
-expr ::=  DIGIT SUM DIGIT
+expr ::=  DIGIT PLUS DIGIT {:
+				  System.out.println("Llegue");
+	:} 
 ;

@@ -1,3 +1,5 @@
+package ctdsCompiler;
+
 import java_cup.runtime.*;
 
 /* CODIGO DE USUARIO */
@@ -8,7 +10,7 @@ import java_cup.runtime.*;
 %standalone
 %line		// permite acceder a la linea corriente a traves de la variable yyline 
 %column 	// permite acceder a la columna corriente a traves de la variable yycolumn
-
+%cup
 
 %{   
     /* Metodo que permite crear un objeto java_cup.runtime.Symbol con informacion
@@ -54,6 +56,8 @@ whiteSpace = [\t\r \n\f]
 {
 {oneLineComment} { System.out.println("one line comment "); }
 
+
+// Palabras reservadas
 "bool"		{/* return symbol(sym.BOOL, yytext()); */}
 "break" 	{/* return symbol(sym.BREAK, yytext()); */}
 "class" 	{/* return symbol(sym.CLASS, yytext()); */}
@@ -69,34 +73,34 @@ whiteSpace = [\t\r \n\f]
 "while" 	{/* return symbol(sym.WHILE, yytext()); */}
 
 // assign_op
-"="		{/* return Symbol(sym.ASSIGN);*/}
-"+="	{/* return Symbol(sym.PLUSASSING);*/}
-"-="	{/* return Symbol(sym.SUBASSING);*/}
+"="		{/* return symbol(sym.ASSIGN);*/}
+"+="	{/* return symbol(sym.PLUSASSING);*/}
+"-="	{/* return symbol(sym.SUBASSING);*/}
 
 // arith_op
-"+" 	{/* return Symbol(sym.PLUS);*/}
-"-"		{/* return Symbol(sym.SUB);*/}
-"*" 	{/* return Symbol(sym.MULT);*/}
-"/" 	{/* return Symbol(sym.DIV);*/}
-"%"		{/* return Symbol(sym.MOD);*/}
+"+" 	{return symbol(sym.PLUS);}
+"-"		{/* return symbol(sym.SUB);*/}
+"*" 	{/* return symbol(sym.MULT);*/}
+"/" 	{/* return symbol(sym.DIV);*/}
+"%"		{/* return symbol(sym.MOD);*/}
 
 // rel_op
-"<" 	{/* return Symbol(sym.LESS);*/}
-">"		{/* return Symbol(sym.GREATER);*/}
-"<="	{/* return Symbol(sym.LESSEQUAL);*/}
-">="	{/* return Symbol(sym.GREATEREQUAL);*/}
+"<" 	{/* return symbol(sym.LESS);*/}
+">"		{/* return symbol(sym.GREATER);*/}
+"<="	{/* return symbol(sym.LESSEQUAL);*/}
+">="	{/* return symbol(sym.GREATEREQUAL);*/}
 
 // eq_op
-"=="	{/* return Symbol(sym.EQUAL);*/}
-"!="	{/* return Symbol(sym.NOTEQUAL);*/}
+"=="	{/* return symbol(sym.EQUAL);*/}
+"!="	{/* return symbol(sym.NOTEQUAL);*/}
 
 // cond_op
-"&&" 	{/* return Symbol(sym.AND);*/}
-"||"	{/* return Symbol(sym.OR);*/}
+"&&" 	{/* return symbol(sym.AND);*/}
+"||"	{/* return symbol(sym.OR);*/}
 
-{digit}			{ /*return symbol(sym.DIGIT, new String(yytext()));*/}
-{int_literal}	{ /*return symbol(sym.int, new String(yytext()));*/}
-{float_literal} { /*return symbol(sym.FLOAT, new String(yytext()));*/}
+{digit}			{return symbol(sym.DIGIT, new String(yytext()));}
+{int_literal}	{ /*return symbol(sym.INT, new Integer(yytext()));*/}
+{float_literal} { /*return symbol(sym.FLOAT, new Float(yytext()));*/}
 {alpha_num}		{ /*return symbol(sym.ALPHANUM, new String(yytext()));*/}
 {id} 			{ /*return symbol(sym.ID, new String(yytext()));*/}
 
