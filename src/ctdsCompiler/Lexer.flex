@@ -12,7 +12,12 @@ import java_cup.runtime.*;
 %column 	// permite acceder a la columna corriente a traves de la variable yycolumn
 %cup
 
-%{   
+%{
+    public Lexer(java.io.InputStream r, ComplexSymbolFactory sf){
+		this(r);
+		// this.sf=sf;
+    }
+
     /* Metodo que permite crear un objeto java_cup.runtime.Symbol con informacion
        sobre el token corriente. El token no tendra valor. */
     private Symbol symbol(int type) {	
