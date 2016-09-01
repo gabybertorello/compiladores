@@ -1,15 +1,24 @@
 package ctdsCompiler;
 
 import java.io.*;
- 
+import java_cup.runtime.*;
+
 public class Main {
-static public void main(String argv[]) {    
-  /* Start the parser */
-  try {
-    parser p = new parser(new Lexer(new FileReader(argv[0])));
-    Object result = p.parse().value;      
-  } catch (Exception e) {
-    e.printStackTrace();
-  }
+	static public void main(String args[])throws Exception {    
+	  try {
+			ComplexSymbolFactory sf = new ComplexSymbolFactory();
+			if (args.length==0){
+				Lexer l = new Lexer (System.in);
+				parser p = new parser (l,sf);
+				p.parse();
+			}else{
+				Lexer l = new Lexer (new java.io.FileInputStream(args[0]));
+				parser p = new parser (l,sf);
+				p.parse(); 
+			}    
+	  }catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
 }
-}
+
