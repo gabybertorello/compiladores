@@ -10,7 +10,7 @@ else
 fi
 
 
-if java -jar ./lib/cup/java-cup-11b.jar ./src/ctdsCompiler/Parser.cup
+if java -jar ./lib/java-cup-11b.jar ./src/ctdsCompiler/Parser.cup
 then
   echo "Creacion del parser.java y sym.java"
 else 
@@ -44,5 +44,13 @@ then
   echo "Creacion del Lexer.class"
 else 
   echo "Creacion del Lexer.class fallida"
+  exit
+fi
+
+if javac -cp .:../lib/java-cup-11b-runtime.jar ./ctdsCompiler/Main.java
+then
+  echo "Creacion del Main.class"
+else 
+  echo "Creacion del Main.class fallida"
   exit
 fi
