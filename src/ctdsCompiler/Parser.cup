@@ -13,7 +13,7 @@ parser code {:
 /* Terminales (tokens retornados por el Lexer)		*
  * Primero se listan los terminales que no tienen valor *
  * Luego se listan los que si tiene valor 		*/
-terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, SUB, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES;
+terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, SUB, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT;
 terminal Integer DIGIT, INTLIT;
 terminal Float FLOATLIT;
 terminal String ALPHANUM,ID;
@@ -22,7 +22,7 @@ terminal Boolean BOOLLIT;
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
 
-non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr;
+non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr,statement,aux1,aux2,fiel_decl;
 
 
 /* ------------- Area de precedencia y asociatividad de los operadores ----------- */
@@ -43,20 +43,35 @@ precedence right ASSIGN, PLUSASSIGN, SUBASSIGN;
 
 /* ---------------------------- Area de Gramatica -------------------- */
 
-statament ::= location ASSIGN expr
+statement ::= location ASSIGN expr
 	    | location PLUSASSIGN expr
 	    | location SUBASSIGN expr
 	    | method_call
 	    | IF LPAREN expr RPAREN statement
 	    | IF LPAREN expr RPAREN statement ELSE statement
+	    | FOR ID ASSIGN expr COMA statement
+	    | WHILE expr statement
 	    | RETURN
 	    | RETURN expr
 	    | BREAK 
 	    | CONTINUE
+	    | SEMICOLON
+	    | block
+	    ;
 	    
+body ::= block
+       | EXTERN
+       ;
+	    
+block ::= LBRACES RBRACES
+	;
 
-method_call ::= ID 
-        
+method_call ::= ID LPAREN RPAREN
+	     |ID LPAREN aux2 RPAREN
+	     |ID aux1 LPAREN RPAREN
+	     |ID aux1 LPAREN aux2 RPAREN
+	     ;	
+	
 expr ::= location
        | INTLIT
        | FLOATLIT
@@ -80,5 +95,21 @@ expr ::= location
     ;
         
 location ::= ID
-	   | ID LQBRACKET expr RQBRACKET
-	   ;
+	   | ID  LBRACES POINT ID RBRACES
+	   | ID  LSQBRACKET expr RSQBRACKET
+           | ID LBRACES POINT ID RBRACES LSQBRACKET expr RSQBRACKET 
+    ;
+    
+class_decl ::= CLASS ID LBRACES RBRACES
+	    | CLASS ID LBRACES fiel_decl method_decl RBRACES
+	    | CLASS ID LBRACES method_decl RBRACES
+            | CLASS ID LBRACES field_decl RBRACES
+    ;
+        
+aux1 ::= POINT ID
+      | POINT ID aux1
+      ;
+      
+aux2 ::= expr
+      | expr COMA aux2
+      ;

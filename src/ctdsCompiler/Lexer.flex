@@ -116,6 +116,7 @@ whiteSpace = [\t\r \n\f]
 //
 ";"	{ return symbol(sym.SEMICOLON);}
 ","	{ return symbol(sym.COMA);}
+"."     { return symbol(sym.PUNTO);}
 
 {digit}		{ return symbol(sym.DIGIT, new String(yytext()));}
 {int_literal}	{ return symbol(sym.INTLIT, new Integer(yytext()));}
