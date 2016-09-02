@@ -63,19 +63,19 @@ whiteSpace = [\t\r \n\f]
 
 
 // Palabras reservadas
-"bool"		{/* return symbol(sym.BOOL, yytext()); */}
-"break" 	{/* return symbol(sym.BREAK, yytext()); */}
-"class" 	{/* return symbol(sym.CLASS, yytext()); */}
-"continue" 	{/* return symbol(sym.CONTINUE, yytext()); */}
-"else" 		{/* return symbol(sym.ELSE, yytext()); */}
-"extern" 	{/* return symbol(sym.EXTERN, yytext()); */}
-"float" 	{/* return symbol(sym.FLOAT, yytext()); */}
-"for" 		{/* return symbol(sym.FOR, yytext()); */}
-"if" 		{/* return symbol(sym.IF, yytext()); */}
-"integer" 	{/* return symbol(sym.INTEGER, yytext()); */}
-"return" 	{/* return symbol(sym.RETURN, yytext()); */}
-"void" 		{/* return symbol(sym.VOID, yytext()); */}
-"while" 	{/* return symbol(sym.WHILE, yytext()); */}
+"bool"		{/* return symbol(sym.BOOL); */}
+"break" 	{/* return symbol(sym.BREAK); */}
+"class" 	{/* return symbol(sym.CLASS); */}
+"continue" 	{/* return symbol(sym.CONTINUE); */}
+"else" 		{/* return symbol(sym.ELSE); */}
+"extern" 	{/* return symbol(sym.EXTERN); */}
+"float" 	{/* return symbol(sym.FLOAT); */}
+"for" 		{/* return symbol(sym.FOR); */}
+"if" 		{/* return symbol(sym.IF); */}
+"integer" 	{/* return symbol(sym.INTEGER); */}
+"return" 	{/* return symbol(sym.RETURN); */}
+"void" 		{/* return symbol(sym.VOID); */}
+"while" 	{/* return symbol(sym.WHILE); */}
 
 // assign_op
 "="		{/* return symbol(sym.ASSIGN);*/}
@@ -102,10 +102,11 @@ whiteSpace = [\t\r \n\f]
 // cond_op
 "&&" 	{/* return symbol(sym.AND);*/}
 "||"	{/* return symbol(sym.OR);*/}
+"!"	{/* return symbol(sym.NOT);*/}
 
 {digit}			{return symbol(sym.DIGIT, new String(yytext()));}
-{int_literal}	{ /*return symbol(sym.INT, new Integer(yytext()));*/}
-{float_literal} { /*return symbol(sym.FLOAT, new Float(yytext()));*/}
+{int_literal}	{ /*return symbol(sym.INTLIT, new Integer(yytext()));*/}
+{float_literal} { /*return symbol(sym.FLOATLIT, new Float(yytext()));*/}
 {alpha_num}		{ /*return symbol(sym.ALPHANUM, new String(yytext()));*/}
 {id} 			{ /*return symbol(sym.ID, new String(yytext()));*/}
 

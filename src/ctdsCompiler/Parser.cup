@@ -7,17 +7,43 @@ parser code {:
     
 :};
 
-//declaracion de terminales
-terminal PLUS;
-terminal String DIGIT;
+/* ------------ Area de declaracion de Terminales y No Terminales ----------- */
 
-//declaracion de no terminales
 
-non terminal String expr;
+/* Terminales (tokens retornados por el Lexer)		*
+ * Primero se listan los terminales que no tienen valor *
+ * Luego se listan los que si tiene valor 		*/
 
-//grammar section
+terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, SUB, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAK, EQUAL, NOTEQUAL, AND, OR;
+terminal Integer DIGITAL, INTLIT;
+terminal Float FLOATLIT;
+terminal String ALPHANUM, ID;
 
-expr ::=  DIGIT PLUS DIGIT {:
-				  System.out.println("Llegue");
-	:} 
-;
+
+/* No terminales usados en el area de la gramatica	 	*
+ * Primero se listan los no terminales que tienen valor Object  */
+
+non terminal program, class_decl, field_decl, method_decl, body, block, stament, location, method_call, expr, 	;
+
+
+/* ------------- Area de precedencia y asociatividad de los operadores ----------- */
+
+/* Definir la precedencia aquí permite no preocuparse por la	 *
+ * precedencia en el area de Gramatica. Los operadores se listan *
+ * de arriba hacia abajo en orden de precedencia descendente.	 */
+
+precedence left MULT, DIV, MOD
+precedence left ADD, SUB
+precedence left LESS, GREATER, LESSEQUAL, GREATEREQUAL;
+precedence left EQUAL, NOTEQUAL;
+precedence right NOT;
+precedence left AND;
+precedence left OR;
+precedence right ASSIGN, PLUSASSIGN, SUBASSIGN;
+
+
+/* ---------------------------- Area de Gramatica -------------------- */
+        
+
+        
+        
