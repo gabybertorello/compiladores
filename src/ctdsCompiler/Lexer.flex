@@ -106,7 +106,7 @@ whiteSpace = [\t\r \n\f]
 "!"	{ return symbol(sym.NOT);}
 
 // groupers
-"("	{ return symbol(sym.LPAREM);}
+"("	{ return symbol(sym.LPAREN);}
 ")"	{ return symbol(sym.RPAREN);}
 "["	{ return symbol(sym.LSQBRACKET);}
 "]"	{ return symbol(sym.RSQBRACKET);}
@@ -116,7 +116,7 @@ whiteSpace = [\t\r \n\f]
 //
 ";"	{ return symbol(sym.SEMICOLON);}
 ","	{ return symbol(sym.COMA);}
-"."     { return symbol(sym.PUNTO);}
+"."     { return symbol(sym.POINT);}
 
 {digit}		{ return symbol(sym.DIGIT, new String(yytext()));}
 {int_literal}	{ return symbol(sym.INTLIT, new Integer(yytext()));}

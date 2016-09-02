@@ -22,7 +22,7 @@ terminal Boolean BOOLLIT;
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
 
-non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr,statement,aux1,aux2,fiel_decl;
+non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr,statement,aux1,aux2,fiel_decl,aux3;
 
 
 /* ------------- Area de precedencia y asociatividad de los operadores ----------- */
@@ -43,6 +43,13 @@ precedence right ASSIGN, PLUSASSIGN, SUBASSIGN;
 
 /* ---------------------------- Area de Gramatica -------------------- */
 
+field_decl ::= INTEGER aux3
+	     | FLOAT aux3
+	     | BOOL aux3
+	     | ID aux3
+	     | VOID aux3
+            ;
+	     
 statement ::= location ASSIGN expr
 	    | location PLUSASSIGN expr
 	    | location SUBASSIGN expr
@@ -113,3 +120,8 @@ aux1 ::= POINT ID
 aux2 ::= expr
       | expr COMA aux2
       ;
+      
+aux3 ::= ID | ID LSQBRACKET INTLIT RSQBRACKET
+       | ID COMA aux3 | ID LSQBRACKET INTLIT RSQBRACKET COMA aux3
+    ;
+        
