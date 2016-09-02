@@ -55,4 +55,5 @@ else
   exit
 fi
 
+echo "corriendo el main"
 java -cp .:../lib/java-cup-11b-runtime.jar ctdsCompiler/Main input.test

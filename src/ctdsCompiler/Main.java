@@ -11,6 +11,7 @@ public class Main {
 				Lexer l = new Lexer (System.in);
 				parser p = new parser (l,sf);
 				p.parse();
+				System.out.print("HOLA");
 			}else{
 				Lexer l = new Lexer (new java.io.FileInputStream(args[0]));
 				parser p = new parser (l,sf);
