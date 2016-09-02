@@ -13,11 +13,11 @@ parser code {:
 /* Terminales (tokens retornados por el Lexer)		*
  * Primero se listan los terminales que no tienen valor *
  * Luego se listan los que si tiene valor 		*/
-terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, SUB,MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT;
+terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, SUB, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES;
 terminal Integer DIGIT, INTLIT;
 terminal Float FLOATLIT;
 terminal String ALPHANUM,ID;
-terminal Boolean BOOLEANLIT;
+terminal Boolean BOOLLIT;
 
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
@@ -42,8 +42,43 @@ precedence right ASSIGN, PLUSASSIGN, SUBASSIGN;
 
 
 /* ---------------------------- Area de Gramatica -------------------- */
+
+statament ::= location ASSIGN expr
+	    | location PLUSASSIGN expr
+	    | location SUBASSIGN expr
+	    | method_call
+	    | IF LPAREN expr RPAREN statement
+	    | IF LPAREN expr RPAREN statement ELSE statement
+	    | RETURN
+	    | RETURN expr
+	    | BREAK 
+	    | CONTINUE
+	    
+
+method_call ::= ID 
         
-expr ::= DIGIT PLUS DIGIT
+expr ::= location
+       | INTLIT
+       | FLOATLIT
+       | BOOLLIT
+       | expr PLUS expr
+       | expr SUB expr
+       | expr MULT expr
+       | expr DIV expr
+       | expr MOD expr
+       | expr LESS expr
+       | expr GREATER expr
+       | expr LESSEQUAL expr
+       | expr GREATEREQUAL expr
+       | expr EQUAL expr
+       | expr NOTEQUAL expr
+       | expr AND expr
+       | expr OR expr
+       | NOT expr 
+       | LPAREN expr RPAREN
+       | DIGIT PLUS DIGIT
     ;
         
-        
+location ::= ID
+	   | ID LQBRACKET expr RQBRACKET
+	   ;

@@ -10,7 +10,7 @@ import java_cup.runtime.*;
 %standalone
 %line		// permite acceder a la linea corriente a traves de la variable yyline 
 %column 	// permite acceder a la columna corriente a traves de la variable yycolumn
-%cup
+%cup		// habilita compatibilidad con CUP
 
 %{
     public Lexer(java.io.InputStream r, ComplexSymbolFactory sf){
@@ -105,10 +105,22 @@ whiteSpace = [\t\r \n\f]
 "||"	{ return symbol(sym.OR);}
 "!"	{ return symbol(sym.NOT);}
 
+// groupers
+"("	{ return symbol(sym.LPAREM);}
+")"	{ return symbol(sym.RPAREN);}
+"["	{ return symbol(sym.LSQBRACKET);}
+"]"	{ return symbol(sym.RSQBRACKET);}
+"{"	{ return symbol(sym.LBRACES);}
+"}"	{ return symbol(sym.RBRACES);}
+
+//
+";"	{ return symbol(sym.SEMICOLON);}
+","	{ return symbol(sym.COMA);}
+
 {digit}		{ return symbol(sym.DIGIT, new String(yytext()));}
 {int_literal}	{ return symbol(sym.INTLIT, new Integer(yytext()));}
 {float_literal} { return symbol(sym.FLOATLIT, new Float(yytext()));}
-{boolean_literal} { return symbol(sym.BOOLEANLIT, new Boolean(yytext()));}
+{boolean_literal} { return symbol(sym.BOOLLIT, new Boolean(yytext()));}
 {alpha_num}	{ return symbol(sym.ALPHANUM, new String(yytext()));}
 {id} 		{ return symbol(sym.ID, new String(yytext()));}
 
