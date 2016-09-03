@@ -22,7 +22,7 @@ terminal Boolean BOOLLIT;
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
 
-non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr,statement,aux1,aux2,fiel_decl,aux3;
+non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr,statement,aux1,aux2,aux3,aux4,aux5,aux6,aux7,aux8;
 
 
 /* ------------- Area de precedencia y asociatividad de los operadores ----------- */
@@ -39,17 +39,51 @@ precedence right NOT;
 precedence left AND;
 precedence left OR;
 precedence right ASSIGN, PLUSASSIGN, SUBASSIGN;
-
+precedence left BOOL,INTEGER,FLOAT,VOID,ID,ELSE;
 
 /* ---------------------------- Area de Gramatica -------------------- */
 
+    
+program ::= class_decl
+          | class_decl program
+	  ;
+	  
+
+class_decl ::= CLASS ID LBRACES RBRACES
+	    | CLASS ID LBRACES aux5 aux7 RBRACES
+	    | CLASS ID LBRACES aux7 RBRACES
+            | CLASS ID LBRACES aux5 RBRACES
+	    ;
+	  
 field_decl ::= INTEGER aux3
 	     | FLOAT aux3
 	     | BOOL aux3
 	     | ID aux3
 	     | VOID aux3
             ;
+            
+method_decl ::= INTEGER ID LPAREN RPAREN body
+	     | FLOAT ID LPAREN RPAREN body
+	     | BOOL ID LPAREN RPAREN body
+	     | ID ID LPAREN RPAREN body
+	     | VOID ID LPAREN RPAREN body
+	     | INTEGER ID LPAREN aux4 RPAREN body
+	     | FLOAT ID LPAREN aux4 RPAREN body
+	     | BOOL ID LPAREN aux4 RPAREN body
+	     | ID ID LPAREN aux4 RPAREN body
+	     | VOID ID LPAREN aux4 RPAREN body
+            ; 
+
+body ::= block
+       | EXTERN
+       ;
 	     
+block ::= LBRACES RBRACES
+        | LBRACES aux5 RBRACES
+	| LBRACES aux6 RBRACES
+	| LBRACES aux5 aux6 RBRACES
+	;
+	
 statement ::= location ASSIGN expr
 	    | location PLUSASSIGN expr
 	    | location SUBASSIGN expr
@@ -66,19 +100,18 @@ statement ::= location ASSIGN expr
 	    | block
 	    ;
 	    
-body ::= block
-       | EXTERN
-       ;
-	    
-block ::= LBRACES RBRACES
-	;
-
 method_call ::= ID LPAREN RPAREN
 	     |ID LPAREN aux2 RPAREN
 	     |ID aux1 LPAREN RPAREN
 	     |ID aux1 LPAREN aux2 RPAREN
 	     ;	
-	
+
+location ::= ID aux8 LSQBRACKET expr RSQBRACKET 
+	   | ID LSQBRACKET expr RSQBRACKET
+	   | ID aux8
+	   | ID
+           ;
+
 expr ::= location
        | INTLIT
        | FLOATLIT
@@ -98,21 +131,8 @@ expr ::= location
        | expr OR expr
        | NOT expr 
        | LPAREN expr RPAREN
-       | DIGIT PLUS DIGIT
-    ;
-        
-location ::= ID
-	   | ID  LBRACES POINT ID RBRACES
-	   | ID  LSQBRACKET expr RSQBRACKET
-           | ID LBRACES POINT ID RBRACES LSQBRACKET expr RSQBRACKET 
-    ;
-    
-class_decl ::= CLASS ID LBRACES RBRACES
-	    | CLASS ID LBRACES fiel_decl method_decl RBRACES
-	    | CLASS ID LBRACES method_decl RBRACES
-            | CLASS ID LBRACES field_decl RBRACES
-    ;
-        
+       ;
+         
 aux1 ::= POINT ID
       | POINT ID aux1
       ;
@@ -121,7 +141,36 @@ aux2 ::= expr
       | expr COMA aux2
       ;
       
-aux3 ::= ID | ID LSQBRACKET INTLIT RSQBRACKET
-       | ID COMA aux3 | ID LSQBRACKET INTLIT RSQBRACKET COMA aux3
-    ;
-        
+aux3 ::= ID
+       | ID LSQBRACKET INTLIT RSQBRACKET
+       | ID COMA aux3
+       | ID LSQBRACKET INTLIT RSQBRACKET COMA aux3
+       ;
+
+aux4 ::= INTEGER ID 
+       | FLOAT ID
+       | BOOL ID
+       | ID ID
+       | VOID ID
+       | INTEGER ID COMA aux4 
+       | FLOAT ID COMA aux4
+       | BOOL ID COMA aux4
+       | ID ID COMA aux4
+       | VOID ID COMA aux4
+       ;
+    
+aux5 ::= field_decl
+       | field_decl aux5
+       ;
+
+aux6 ::= statement
+       | statement aux6
+       ;
+    
+aux7::= method_decl
+      | method_decl aux7
+      ;
+      
+aux8 ::= POINT ID
+       | POINT ID aux8
+       ;
