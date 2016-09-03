@@ -125,7 +125,7 @@ whiteSpace = [\t\r \n\f]
 {alpha_num}	{ return symbol(sym.ALPHANUM, new String(yytext()));}
 {id} 		{ return symbol(sym.ID, new String(yytext()));}
 
-{whiteSpace} {System.out.println("espacio blanco");}
+{whiteSpace} {}
 }   
 
 [^] {System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", columna "+ yycolumn +")"); }
