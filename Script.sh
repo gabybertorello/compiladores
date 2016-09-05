@@ -55,6 +55,5 @@ else
   exit
 fi
 
-echo "Introduzca el test que desea probar"
-read test
-java -cp .:../lib/java-cup-11b-runtime.jar ctdsCompiler/Main $test
+
+java -cp .:../lib/java-cup-11b-runtime.jar ctdsCompiler/Main ./input.test

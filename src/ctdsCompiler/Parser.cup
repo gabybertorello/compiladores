@@ -22,7 +22,7 @@ terminal Boolean BOOLLIT;
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
 
-non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr,statement,aux1,aux2,aux3,aux4,aux5,aux6,aux7,aux8;
+non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr, statement, point_id_list, aux2,aux3,aux4,aux5,aux6,aux7,aux8, id_list, id_name;
 
 
 /* ------------- Area de precedencia y asociatividad de los operadores ----------- */
@@ -50,17 +50,25 @@ program ::= class_decl
 	  
 
 class_decl ::= CLASS ID LBRACES RBRACES
-	    | CLASS ID LBRACES aux5 aux7 RBRACES
-	    | CLASS ID LBRACES aux7 RBRACES
-            | CLASS ID LBRACES aux5 RBRACES
+	    | CLASS ID LBRACES aux5 aux7 RBRACES {: System.out.println("entro ambos");:}
+	    | CLASS ID LBRACES aux7 RBRACES {: System.out.println("entro solo metodos");:}
+            | CLASS ID LBRACES aux5 RBRACES {: System.out.println("entro solo atributos");:}
 	    ;
 	  
-field_decl ::= INTEGER aux3 SEMICOLON
-	     | FLOAT aux3 SEMICOLON
-	     | BOOL aux3 SEMICOLON
-	     | ID aux3 SEMICOLON
-	     | VOID aux3 SEMICOLON
-            ;
+field_decl ::= INTEGER id_list SEMICOLON {: System.out.println("atr enteros");:}
+	     | FLOAT id_list SEMICOLON
+	     | BOOL id_list SEMICOLON
+	     | ID id_list SEMICOLON
+	     | VOID id_list SEMICOLON
+             ;
+            
+id_list ::= id_name
+          | id_list COMA id_name
+          ;
+
+id_name ::= ID
+          | ID LSQBRACKET INTLIT RSQBRACKET
+          ;
             
 method_decl ::= INTEGER ID LPAREN RPAREN body
 	     | FLOAT ID LPAREN RPAREN body
@@ -72,7 +80,7 @@ method_decl ::= INTEGER ID LPAREN RPAREN body
 	     | BOOL ID LPAREN aux4 RPAREN body
 	     | ID ID LPAREN aux4 RPAREN body
 	     | VOID ID LPAREN aux4 RPAREN body
-            ; 
+             ; 
 
 body ::= block
        | EXTERN SEMICOLON
@@ -101,10 +109,14 @@ statement ::= location ASSIGN expr SEMICOLON
 	    ;
 	    
 method_call ::= ID LPAREN RPAREN
-	     |ID LPAREN aux2 RPAREN
-	     |ID aux1 LPAREN RPAREN
-	     |ID aux1 LPAREN aux2 RPAREN
-	     ;	
+	      |ID LPAREN aux2 RPAREN
+	      |ID point_id_list LPAREN RPAREN
+	      |ID point_id_list LPAREN aux2 RPAREN
+	      ;
+
+point_id_list ::= POINT ID
+		| point_id_list POINT ID
+		;
 
 location ::= ID aux8 LSQBRACKET expr RSQBRACKET 
 	   | ID LSQBRACKET expr RSQBRACKET
@@ -132,21 +144,11 @@ expr ::= location
        | NOT expr 
        | LPAREN expr RPAREN
        ;
-         
-aux1 ::= POINT ID
-      | POINT ID aux1
-      ;
       
 aux2 ::= expr
       | expr COMA aux2
       ;
-      
-aux3 ::= ID
-       | ID LSQBRACKET INTLIT RSQBRACKET
-       | ID COMA aux3
-       | ID LSQBRACKET INTLIT RSQBRACKET COMA aux3
-       ;
-
+       
 aux4 ::= INTEGER ID 
        | FLOAT ID
        | BOOL ID
@@ -160,7 +162,7 @@ aux4 ::= INTEGER ID
        ;
     
 aux5 ::= field_decl
-       | field_decl aux5
+       |  aux5 field_decl
        ;
 
 aux6 ::= statement
