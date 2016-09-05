@@ -55,11 +55,11 @@ class_decl ::= CLASS ID LBRACES RBRACES
             | CLASS ID LBRACES aux5 RBRACES
 	    ;
 	  
-field_decl ::= INTEGER aux3
-	     | FLOAT aux3
-	     | BOOL aux3
-	     | ID aux3
-	     | VOID aux3
+field_decl ::= INTEGER aux3 SEMICOLON
+	     | FLOAT aux3 SEMICOLON
+	     | BOOL aux3 SEMICOLON
+	     | ID aux3 SEMICOLON
+	     | VOID aux3 SEMICOLON
             ;
             
 method_decl ::= INTEGER ID LPAREN RPAREN body
@@ -75,7 +75,7 @@ method_decl ::= INTEGER ID LPAREN RPAREN body
             ; 
 
 body ::= block
-       | EXTERN
+       | EXTERN SEMICOLON
        ;
 	     
 block ::= LBRACES RBRACES
@@ -84,18 +84,18 @@ block ::= LBRACES RBRACES
 	| LBRACES aux5 aux6 RBRACES
 	;
 	
-statement ::= location ASSIGN expr
+statement ::= location ASSIGN expr SEMICOLON
 	    | location PLUSASSIGN expr
 	    | location SUBASSIGN expr
-	    | method_call
+	    | method_call SEMICOLON
 	    | IF LPAREN expr RPAREN statement
 	    | IF LPAREN expr RPAREN statement ELSE statement
 	    | FOR ID ASSIGN expr COMA statement
 	    | WHILE expr statement
-	    | RETURN
-	    | RETURN expr
-	    | BREAK 
-	    | CONTINUE
+	    | RETURN SEMICOLON
+	    | RETURN expr SEMICOLON
+	    | BREAK SEMICOLON
+	    | CONTINUE SEMICOLON
 	    | SEMICOLON
 	    | block
 	    ;
