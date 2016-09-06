@@ -92,9 +92,9 @@ body ::= block
        ;
 	     
 block ::= LBRACES RBRACES
-        | LBRACES aux5 RBRACES
+        | LBRACES field_list RBRACES
 	| LBRACES aux6 RBRACES
-	| LBRACES aux5 aux6 RBRACES
+	| LBRACES field_list aux6 RBRACES
 	;
 	
 statement ::= location ASSIGN expr SEMICOLON
@@ -133,7 +133,7 @@ location ::= ID aux8 LSQBRACKET expr RSQBRACKET
 	   | ID aux8
 	   | ID
            ;
-
+           
 expr ::= location
        | INTLIT
        | FLOATLIT
