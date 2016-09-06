@@ -60,11 +60,9 @@ whiteSpace = [\t\r \n\f]
 
 <YYINITIAL>
 {
-{oneLineComment} { System.out.println("one line comment "); }
-
 
 // Palabras reservadas
-"bool"		{return symbol(sym.BOOL); }
+"bool"		{ return symbol(sym.BOOL); }
 "break" 	{ return symbol(sym.BREAK); }
 "class" 	{ return symbol(sym.CLASS); }
 "continue" 	{ return symbol(sym.CONTINUE); }
@@ -84,7 +82,7 @@ whiteSpace = [\t\r \n\f]
 "-="	{ return symbol(sym.SUBASSIGN);}
 
 // arith_op
-"+" 	{return symbol(sym.PLUS);}
+"+" 	{ return symbol(sym.PLUS);}
 "-"	{ return symbol(sym.SUB);}
 "*" 	{ return symbol(sym.MULT);}
 "/" 	{ return symbol(sym.DIV);}
@@ -118,14 +116,12 @@ whiteSpace = [\t\r \n\f]
 ","	{ return symbol(sym.COMA);}
 "."     { return symbol(sym.POINT);}
 
-{digit}		{ return symbol(sym.DIGIT, new String(yytext()));}
-{int_literal}	{ return symbol(sym.INTLIT, new Integer(yytext()));}
-{float_literal} { return symbol(sym.FLOATLIT, new Float(yytext()));}
-{boolean_literal} { return symbol(sym.BOOLLIT, new Boolean(yytext()));}
-{alpha_num}	{ return symbol(sym.ALPHANUM, new String(yytext()));}
-{id} 		{ return symbol(sym.ID, new String(yytext()));}
+{int_literal}		{ return symbol(sym.INTLIT, new Integer(yytext()));}
+{float_literal} 	{ return symbol(sym.FLOATLIT, new Float(yytext()));}
+{boolean_literal} 	{ return symbol(sym.BOOLLIT, new Boolean(yytext()));}
+{id} 			{ return symbol(sym.ID, new String(yytext()));}
+{whiteSpace} 		{ }
 
-{whiteSpace} {}
 }   
 
 [^] {System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", columna "+ yycolumn +")"); }

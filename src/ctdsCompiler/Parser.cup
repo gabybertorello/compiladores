@@ -14,15 +14,15 @@ parser code {:
  * Primero se listan los terminales que no tienen valor *
  * Luego se listan los que si tiene valor 		*/
 terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, SUB, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT;
-terminal Integer DIGIT, INTLIT;
+terminal Integer INTLIT;
 terminal Float FLOATLIT;
-terminal String ALPHANUM,ID;
+terminal String ID;
 terminal Boolean BOOLLIT;
 
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
 
-non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr, statement, point_id_list, expr_list,type_list,field_list,statement_list,method_list, id_list, id_name;
+non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr, statement, point_id_list, expr_list, type_list, field_list, statement_list, method_list, id_list, id_name;
 
 
 /* ------------- Area de precedencia y asociatividad de los operadores ----------- */
@@ -54,16 +54,16 @@ class_decl ::= CLASS ID LBRACES RBRACES
 	    | CLASS ID LBRACES method_list RBRACES {: System.out.println("entro solo metodos");:}
             | CLASS ID LBRACES field_list RBRACES {: System.out.println("entro solo atributos");:}
 	    ;
+	    
 field_list ::= field_decl
             | field_list field_decl
-        ;
+	    ;
 
 
 method_list::= method_decl
             | method_list method_decl
             ;
       	    
-	    
 field_decl ::= INTEGER id_list SEMICOLON {: System.out.println("atr enteros");:}
 	     | FLOAT id_list SEMICOLON
 	     | BOOL id_list SEMICOLON
@@ -80,30 +80,29 @@ id_name ::= ID
           ;
             
 method_decl ::= INTEGER ID LPAREN RPAREN body
-	     | FLOAT ID LPAREN RPAREN body
-	     | BOOL ID LPAREN RPAREN body
-	     | ID ID LPAREN RPAREN body
-	     | VOID ID LPAREN RPAREN body
-	     | INTEGER ID LPAREN type_list RPAREN body
-	     | FLOAT ID LPAREN type_list RPAREN body
-	     | BOOL ID LPAREN type_list RPAREN body
-	     | ID ID LPAREN type_list RPAREN body
-	     | VOID ID LPAREN type_list RPAREN body
-             ; 
+	      | FLOAT ID LPAREN RPAREN body
+	      | BOOL ID LPAREN RPAREN body
+	      | ID ID LPAREN RPAREN body
+	      | VOID ID LPAREN RPAREN body
+	      | INTEGER ID LPAREN type_list RPAREN body
+	      | FLOAT ID LPAREN type_list RPAREN body
+	      | BOOL ID LPAREN type_list RPAREN body
+	      | ID ID LPAREN type_list RPAREN body
+	      | VOID ID LPAREN type_list RPAREN body
+              ; 
 
 type_list ::= INTEGER ID 
-       | FLOAT ID
-       | BOOL ID
-       | ID ID
-       | VOID ID
-       | type_list COMA INTEGER ID
-       | type_list COMA FLOAT ID
-       | type_list COMA BOOL ID
-       | type_list COMA ID ID       
-       | type_list COMA VOID ID         
-       ;
-                 
-             
+	    | FLOAT ID
+	    | BOOL ID
+	    | ID ID
+	    | VOID ID
+	    | type_list COMA INTEGER ID
+	    | type_list COMA FLOAT ID
+	    | type_list COMA BOOL ID
+	    | type_list COMA ID ID       
+	    | type_list COMA VOID ID         
+	    ;
+                  
 body ::= block
        | EXTERN SEMICOLON
        ;
@@ -115,8 +114,8 @@ block ::= LBRACES RBRACES
 	;
 	
 statement_list ::= statement
-                | statement_list statement
-            ;	
+                 | statement_list statement
+		 ;	
 	
 statement ::= location ASSIGN expr SEMICOLON
 	    | location PLUSASSIGN expr
