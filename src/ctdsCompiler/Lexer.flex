@@ -46,13 +46,10 @@ id = {alpha} {alpha_num}*
 lineTerminator = \r|\n|\r\n
 lineOfCharacters = [^\r\n]
 oneLineComment = "//" {lineOfCharacters}*
-severalLinesComments = "/*" [ˆ*] {CommentContent} "*"+ "/" 
-CommentContent = = ( [ˆ*] | \*+ [ˆ/*] )*
-/* VER!! comments = {oneLineComments} | {severalLinesComments}
-// VER!! spaces = {whiteSpaces} | {comments}
-*/
-whiteSpace = [\t\r \n\f]
-
+severalLinesComments = "/*"~"*/" 
+comments = {oneLineComments} | {severalLinesComments}
+whiteSpaces = [\t\r \n\f]*
+spaces = {whiteSpaces} | {comments}
 
 
 /* REGLAS LEXICAS */
@@ -120,7 +117,7 @@ whiteSpace = [\t\r \n\f]
 {float_literal} 	{ return symbol(sym.FLOATLIT, new Float(yytext()));}
 {boolean_literal} 	{ return symbol(sym.BOOLLIT, new Boolean(yytext()));}
 {id} 			{ return symbol(sym.ID, new String(yytext()));}
-{whiteSpace} 		{ }
+{spaces} 		{ }
 
 }   
 
