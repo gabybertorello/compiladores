@@ -22,7 +22,7 @@ terminal Boolean BOOLLIT;
 /* No terminales usados en el area de la gramatica	 	*
  * Primero se listan los no terminales que tienen valor Object  */
 
-non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr, statement, point_id_list, aux2,aux3,aux4,aux5,aux6,aux7,aux8, id_list, id_name;
+non terminal program, class_decl, field_decl, method_decl, body, block, location, method_call, expr, statement, point_id_list, expr_list,aux3,aux4,field_list,aux6,aux7,aux8, id_list, id_name;
 
 
 /* ------------- Area de precedencia y asociatividad de los operadores ----------- */
@@ -50,11 +50,16 @@ program ::= class_decl
 	  
 
 class_decl ::= CLASS ID LBRACES RBRACES
-	    | CLASS ID LBRACES aux5 aux7 RBRACES {: System.out.println("entro ambos");:}
+	    | CLASS ID LBRACES field_list aux7 RBRACES {: System.out.println("entro ambos");:}
 	    | CLASS ID LBRACES aux7 RBRACES {: System.out.println("entro solo metodos");:}
-            | CLASS ID LBRACES aux5 RBRACES {: System.out.println("entro solo atributos");:}
+            | CLASS ID LBRACES field_list RBRACES {: System.out.println("entro solo atributos");:}
 	    ;
-	  
+field_list ::= field_decl
+            | field_list field_decl
+        ;
+
+	    
+	    
 field_decl ::= INTEGER id_list SEMICOLON {: System.out.println("atr enteros");:}
 	     | FLOAT id_list SEMICOLON
 	     | BOOL id_list SEMICOLON
@@ -109,10 +114,15 @@ statement ::= location ASSIGN expr SEMICOLON
 	    ;
 	    
 method_call ::= ID LPAREN RPAREN
-	      |ID LPAREN aux2 RPAREN
+	      |ID LPAREN expr_list RPAREN
 	      |ID point_id_list LPAREN RPAREN
-	      |ID point_id_list LPAREN aux2 RPAREN
+	      |ID point_id_list LPAREN expr_list RPAREN
 	      ;
+	      
+      
+expr_list ::= expr
+            | expr_list COMA expr  
+            ;	      
 
 point_id_list ::= POINT ID
 		| point_id_list POINT ID
@@ -144,10 +154,7 @@ expr ::= location
        | NOT expr 
        | LPAREN expr RPAREN
        ;
-      
-aux2 ::= expr
-      | expr COMA aux2
-      ;
+
        
 aux4 ::= INTEGER ID 
        | FLOAT ID
@@ -161,9 +168,6 @@ aux4 ::= INTEGER ID
        | VOID ID COMA aux4
        ;
     
-aux5 ::= field_decl
-       |  aux5 field_decl
-       ;
 
 aux6 ::= statement
        | statement aux6
