@@ -176,10 +176,3 @@ expr ::= location
        | LPAREN expr RPAREN
        ;
 
-       
-
-
-method_list::= method_decl
-            | method_list method_decl
-            ;
-      
