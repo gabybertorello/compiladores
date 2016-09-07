@@ -13,7 +13,7 @@ parser code {:
 /* Terminales (tokens retornados por el Lexer)		*
  * Primero se listan los terminales que no tienen valor *
  * Luego se listan los que si tiene valor 		*/
-terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, SUB, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT;
+terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, MINUS, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT;
 terminal Integer INTLIT;
 terminal Float FLOATLIT;
 terminal String ID;
@@ -32,7 +32,7 @@ non terminal program, class_decl, field_decl, method_decl, body, block, location
  * de arriba hacia abajo en orden de precedencia descendente.	 */
 
 precedence left MULT, DIV, MOD;
-precedence left PLUS, SUB;
+precedence left PLUS, MINUS;
 precedence left LESS, GREATER, LESSEQUAL, GREATEREQUAL;
 precedence left EQUAL, NOTEQUAL;
 precedence right NOT;
@@ -160,7 +160,7 @@ expr ::= location
        | FLOATLIT
        | BOOLLIT
        | expr PLUS expr
-       | expr SUB expr
+       | expr MINUS expr
        | expr MULT expr
        | expr DIV expr
        | expr MOD expr
@@ -172,6 +172,7 @@ expr ::= location
        | expr NOTEQUAL expr
        | expr AND expr
        | expr OR expr
+       | MINUS expr
        | NOT expr 
        | LPAREN expr RPAREN
        ;

@@ -46,10 +46,10 @@ id = {alpha} {alpha_num}*
 lineTerminator = \r|\n|\r\n
 lineOfCharacters = [^\r\n]
 oneLineComment = '//' {lineOfCharacters}* 
-severalLinesComments = "/*"~"*/" 
-comments = {oneLineComment} | {severalLinesComments}
+severalLinesComment = "/*"~"*/" 
+comments = {oneLineComment} | {severalLinesComment}
 whiteSpaces = [\t\r \n\f]*
-spaces = {whiteSpaces} | {comments} 
+spaces = {whiteSpaces} | {comments} | {lineTerminator} 
 
 
 /* REGLAS LEXICAS */
@@ -80,7 +80,7 @@ spaces = {whiteSpaces} | {comments}
 
 // arith_op
 "+" 	{ return symbol(sym.PLUS);}
-"-"	{ return symbol(sym.SUB);}
+"-"	{ return symbol(sym.MINUS);}
 "*" 	{ return symbol(sym.MULT);}
 "/" 	{ return symbol(sym.DIV);}
 "%"	{ return symbol(sym.MOD);}
