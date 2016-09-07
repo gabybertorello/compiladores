@@ -45,11 +45,11 @@ id = {alpha} {alpha_num}*
 
 lineTerminator = \r|\n|\r\n
 lineOfCharacters = [^\r\n]
-oneLineComment = "//" {lineOfCharacters}*
+oneLineComment = '//' {lineOfCharacters}* 
 severalLinesComments = "/*"~"*/" 
-comments = {oneLineComments} | {severalLinesComments}
+comments = {oneLineComment} | {severalLinesComments}
 whiteSpaces = [\t\r \n\f]*
-spaces = {whiteSpaces} | {comments}
+spaces = {whiteSpaces} | {comments} 
 
 
 /* REGLAS LEXICAS */
