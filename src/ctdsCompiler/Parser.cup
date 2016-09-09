@@ -29,17 +29,19 @@ non terminal program, class_decl, field_decl, method_decl, body, block, location
 
 /* Definir la precedencia aquí permite no preocuparse por la	 *
  * precedencia en el area de Gramatica. Los operadores se listan *
- * de arriba hacia abajo en orden de precedencia descendente.	 */
+ * de arriba hacia abajo en orden de precedencia ascendente.	 */
 
-precedence left MULT, DIV, MOD;
-precedence left PLUS, MINUS;
-precedence left LESS, GREATER, LESSEQUAL, GREATEREQUAL;
-precedence left EQUAL, NOTEQUAL;
-precedence right NOT;
-precedence left AND;
-precedence left OR;
 precedence right ASSIGN, PLUSASSIGN, SUBASSIGN;
+precedence left OR;
+precedence left AND;
+precedence right NOT;
+precedence left EQUAL, NOTEQUAL;
+precedence left LESS, GREATER, LESSEQUAL, GREATEREQUAL;
+precedence left PLUS, MINUS;
+precedence left MULT, DIV, MOD;
+precedence right UMINUS;
 precedence left BOOL,INTEGER,FLOAT,VOID,ID,ELSE;
+
 
 /* ---------------------------- Area de Gramatica -------------------- */
 
@@ -172,7 +174,7 @@ expr ::= location
        | expr NOTEQUAL expr
        | expr AND expr
        | expr OR expr
-       | MINUS expr
+       | MINUS expr %prec UMINUS
        | NOT expr 
        | LPAREN expr RPAREN
        ;
