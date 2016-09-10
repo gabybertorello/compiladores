@@ -49,7 +49,8 @@ public class Block extends Statement {
 
 	@Override
 	public <T> T accept(ASTVisitor<T> v) {
-		return v.visit(this);
+		//return v.visit(this);
+		return null;
 	}
 	
 }

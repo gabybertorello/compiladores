@@ -2,7 +2,9 @@ package ctdsCompiler;
 
 import java_cup.runtime.*;
 import java.io.FileReader;
-
+import ir.ast.*;
+import ir.semcheck.*;
+		   
 parser code {:
     
 :};
@@ -13,7 +15,7 @@ parser code {:
 /* Terminales (tokens retornados por el Lexer)		*
  * Primero se listan los terminales que no tienen valor *
  * Luego se listan los que si tiene valor 		*/
-terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, MINUS, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT;
+terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, MINUS, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT, UMINUS;
 terminal Integer INTLIT;
 terminal Float FLOATLIT;
 terminal String ID;
@@ -161,20 +163,20 @@ expr ::= location
        | INTLIT
        | FLOATLIT
        | BOOLLIT
-       | expr PLUS expr
-       | expr MINUS expr
-       | expr MULT expr
-       | expr DIV expr
-       | expr MOD expr
-       | expr LESS expr
-       | expr GREATER expr
-       | expr LESSEQUAL expr
-       | expr GREATEREQUAL expr
-       | expr EQUAL expr
-       | expr NOTEQUAL expr
-       | expr AND expr
-       | expr OR expr
+       | expr:e1 PLUS expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.PLUS, (Expression) e2); :}
+       | expr:e1 MINUS expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.MINUS, (Expression) e2); :}
+       | expr:e1 MULT expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.MULTIPLY, (Expression) e2); :}
+       | expr:e1 DIV expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.DIVIDE, (Expression) e2); :}
+       | expr:e1 MOD expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.MOD, (Expression) e2); :}
+       | expr:e1 LESS expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.LE, (Expression) e2); :}
+       | expr:e1 GREATER expr:e2	{: RESULT = new BinOpExpr((Expression) e1, BinOpType.GE, (Expression) e2); :}
+       | expr:e1 LESSEQUAL expr:e2	{: RESULT = new BinOpExpr((Expression) e1, BinOpType.LEQ, (Expression) e2); :}
+       | expr:e1 GREATEREQUAL expr:e2	{: RESULT = new BinOpExpr((Expression) e1, BinOpType.GEQ, (Expression) e2); :}
+       | expr:e1 EQUAL expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.CEQ, (Expression) e2); :}
+       | expr:e1 NOTEQUAL expr:e2	{: RESULT = new BinOpExpr((Expression) e1, BinOpType.NEQ, (Expression) e2); :}
+       | expr:e1 AND expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.AND, (Expression) e2); :}
+       | expr:e1 OR expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.OR, (Expression) e2); :}
        | MINUS expr %prec UMINUS
        | NOT expr 
-       | LPAREN expr RPAREN
+       | LPAREN expr:e RPAREN		{: RESULT = (Expression) e; :}
        ;
