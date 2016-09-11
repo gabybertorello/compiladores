@@ -4,7 +4,12 @@ import java_cup.runtime.*;
 import java.io.FileReader;
 import ir.ast.*;
 import ir.semcheck.*;
-		   
+import java.util.Hashtable;
+
+action code {:
+    Hashtable symbolTable = new Hashtable();	// Tabla de símbolos que permite el mapeo de identificadores en valores
+:};
+
 parser code {:
     
 :};
@@ -16,7 +21,7 @@ parser code {:
  * Primero se listan los terminales que no tienen valor *
  * Luego se listan los que si tiene valor 		*/
 terminal COMA, SEMICOLON, BOOL, BREAK, CLASS, CONTINUE, ELSE, EXTERN, FLOAT, FOR, IF, INTEGER, RETURN, VOID, WHILE, ASSIGN, PLUSASSIGN, SUBASSIGN, PLUS, MINUS, MULT, DIV, MOD, LESS, GREATER, LESSEQUAL, GREATEREQUAL, EQUAL, NOTEQUAL, AND, OR, NOT, LPAREN, RPAREN, LSQBRACKET, RSQBRACKET, LBRACES, RBRACES, POINT, UMINUS;
-terminal Integer INTLIT;
+terminal String INTLIT;
 terminal Float FLOATLIT;
 terminal String ID;
 terminal Boolean BOOLLIT;
@@ -47,6 +52,7 @@ precedence left BOOL,INTEGER,FLOAT,VOID,ID,ELSE;
 
 /* ---------------------------- Area de Gramatica -------------------- */
 
+start with program;	// Especifica que el simbolo de comienzo es el no terminal program
     
 program ::= class_decl
           | class_decl program
@@ -160,9 +166,9 @@ location ::= ID point_id_list LSQBRACKET expr RSQBRACKET
            
 expr ::= location
        | method_call
-       | INTLIT
-       | FLOATLIT
-       | BOOLLIT
+       | INTLIT:i			{: RESULT = new IntLiteral(i); :}
+       | FLOATLIT			// Debemos definir FloatLiteral?
+       | BOOLLIT			// Debemos definir BooleanLiteral?
        | expr:e1 PLUS expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.PLUS, (Expression) e2); :}
        | expr:e1 MINUS expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.MINUS, (Expression) e2); :}
        | expr:e1 MULT expr:e2		{: RESULT = new BinOpExpr((Expression) e1, BinOpType.MULTIPLY, (Expression) e2); :}

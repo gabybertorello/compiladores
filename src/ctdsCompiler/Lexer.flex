@@ -113,7 +113,7 @@ spaces = {whiteSpaces} | {comments} | {lineTerminator}
 ","	{ return symbol(sym.COMA);}
 "."     { return symbol(sym.POINT);}
 
-{int_literal}		{ return symbol(sym.INTLIT, new Integer(yytext()));}
+{int_literal}		{ return symbol(sym.INTLIT, new String(yytext()));}
 {float_literal} 	{ return symbol(sym.FLOATLIT, new Float(yytext()));}
 {boolean_literal} 	{ return symbol(sym.BOOLLIT, new Boolean(yytext()));}
 {id} 			{ return symbol(sym.ID, new String(yytext()));}
@@ -121,7 +121,7 @@ spaces = {whiteSpaces} | {comments} | {lineTerminator}
 
 }   
 
-[^] {System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", columna "+ yycolumn +")"); }
-
+[^] 			{ System.err.println("Caracter ilegal: "+ yytext() +" (linea "+ yyline+ ", columna "+ yycolumn +")"); return symbol(sym.error); }
+<<EOF>>			{ return symbol(sym.EOF); }
 
 // <<EOF>> {System.out.println("EOF"); }
