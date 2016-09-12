@@ -127,16 +127,16 @@ statement_list ::= statement
                  | statement_list statement
 		 ;	
 	
-statement ::= location ASSIGN expr SEMICOLON
-	    | location PLUSASSIGN expr SEMICOLON
-	    | location SUBASSIGN expr SEMICOLON
+statement ::= location:l ASSIGN expr:e SEMICOLON			{: RESULT = new AssignStmt((Location) l, AssignOpType.ASSIGN, (Expression) e); :}
+	    | location:l PLUSASSIGN expr:e SEMICOLON			{: RESULT = new AssignStmt((Location) l, AssignOpType.INCREMENT, (Expression) e); :}
+	    | location:l SUBASSIGN expr:e SEMICOLON			{: RESULT = new AssignStmt((Location) l, AssignOpType.DECREMENT, (Expression) e); :}
 	    | method_call SEMICOLON
-	    | IF LPAREN expr RPAREN statement
-	    | IF LPAREN expr RPAREN statement ELSE statement
+	    | IF LPAREN expr:c RPAREN statement:t			{: RESULT = new IfStmt((Expression) c, (Block) t); :}
+	    | IF LPAREN expr:c RPAREN statement:t ELSE statement:f	{: RESULT = new IfStmt((Expression) c, (Block) t, (Block) f); :}
 	    | FOR ID ASSIGN expr COMA expr statement
 	    | WHILE expr statement
-	    | RETURN SEMICOLON
-	    | RETURN expr SEMICOLON
+	    | RETURN SEMICOLON						{: RESULT = new ReturnStmt(); :}
+	    | RETURN expr:e SEMICOLON					{: RESULT = new ReturnStmt((Expression) e); :}
 	    | BREAK SEMICOLON
 	    | CONTINUE SEMICOLON
 	    | SEMICOLON
